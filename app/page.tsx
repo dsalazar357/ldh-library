@@ -1,8 +1,7 @@
 import prisma from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import Link from "next/link";
-import LogoutButton from "@/components/logout-button";
+import AppHeader from "@/components/app-header";
 
 export default async function Home() {
   const session = await getSession();
@@ -16,38 +15,11 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="flex items-center justify-between px-6 py-4 border-b border-border bg-card">
-        <div className="flex items-center gap-6">
-          <h1 className="text-lg font-bold text-card-foreground font-sans">
-            LDH Library
-          </h1>
-          <nav className="flex items-center gap-1" aria-label="Main navigation">
-            <span
-              className="text-sm text-card-foreground font-medium bg-muted px-3 py-1.5 rounded-lg"
-              aria-current="page"
-            >
-              Home
-            </span>
-            {session.admin && (
-              <Link
-                href="/users"
-                className="text-sm text-muted-foreground hover:text-card-foreground px-3 py-1.5 rounded-lg hover:bg-muted transition-colors"
-              >
-                Users
-              </Link>
-            )}
-          </nav>
-        </div>
-        <div className="flex items-center gap-4">
-          <span className="text-sm text-muted-foreground">
-            Signed in as{" "}
-            <span className="font-medium text-card-foreground">
-              {session.username}
-            </span>
-          </span>
-          <LogoutButton />
-        </div>
-      </header>
+      <AppHeader
+        username={session.username}
+        isAdmin={session.admin}
+        currentPage="Home"
+      />
 
       <main className="max-w-3xl mx-auto px-6 py-10">
         <section className="mb-10">
