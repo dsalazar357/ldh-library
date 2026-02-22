@@ -2,6 +2,7 @@
 
 import { useActionState, useRef } from "react";
 import { createUserAction } from "@/app/actions/users";
+import { DEGREES } from "@/lib/constants";
 
 export default function CreateUserForm() {
   const formRef = useRef<HTMLFormElement>(null);
@@ -92,15 +93,19 @@ export default function CreateUserForm() {
             >
               Degree <span className="text-destructive">*</span>
             </label>
-            <input
+            <select
               id="create-degree"
               name="degree"
-              type="number"
-              min={0}
-              defaultValue={0}
               required
-              className="rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-all"
-            />
+              defaultValue={1}
+              className="rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-all"
+            >
+              {DEGREES.map((d) => (
+                <option key={d.value} value={d.value}>
+                  {d.label}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="flex items-end gap-3 pb-0.5">
             <label className="flex items-center gap-2 cursor-pointer">

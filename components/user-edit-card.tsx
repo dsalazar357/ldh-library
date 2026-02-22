@@ -2,6 +2,7 @@
 
 import { useActionState, useState } from "react";
 import { updateUserAction, changePasswordAction } from "@/app/actions/users";
+import { DEGREES } from "@/lib/constants";
 
 type User = {
   id: number;
@@ -86,15 +87,19 @@ export default function UserEditCard({ user }: { user: User }) {
             >
               Degree
             </label>
-            <input
+            <select
               id={`degree-${user.id}`}
               name="degree"
-              type="number"
-              min={0}
-              defaultValue={user.degree}
               required
-              className="rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-all"
-            />
+              defaultValue={user.degree}
+              className="rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-all"
+            >
+              {DEGREES.map((d) => (
+                <option key={d.value} value={d.value}>
+                  {d.label}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="flex items-end gap-3 pb-0.5">
             <label className="flex items-center gap-2 cursor-pointer">
