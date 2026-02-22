@@ -84,7 +84,7 @@ export default async function RitualsPage() {
                         </span>
                       </span>
                       <a
-                        href={ritual.url}
+                        href={`/api/rituals/${ritual.id}/view`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-primary underline underline-offset-2 hover:opacity-80"
