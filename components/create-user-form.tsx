@@ -70,6 +70,23 @@ export default function CreateUserForm() {
           </div>
           <div className="flex flex-col gap-1.5">
             <label
+              htmlFor="create-password"
+              className="text-xs font-medium text-muted-foreground"
+            >
+              Password <span className="text-destructive">*</span>
+            </label>
+            <input
+              id="create-password"
+              name="password"
+              type="password"
+              required
+              minLength={6}
+              placeholder="Minimum 6 characters"
+              className="rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-all"
+            />
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <label
               htmlFor="create-degree"
               className="text-xs font-medium text-muted-foreground"
             >

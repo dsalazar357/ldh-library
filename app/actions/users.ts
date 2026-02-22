@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import prisma from "@/lib/prisma";
-import { getSession } from "@/lib/auth";
+import { getSession, hashPassword } from "@/lib/auth";
 
 export async function updateUserAction(
   _prevState: { error?: string; success?: string } | null,
@@ -62,6 +62,7 @@ export async function createUserAction(
 
   const username = (formData.get("username") as string)?.trim();
   const email = (formData.get("email") as string)?.trim();
+  const password = (formData.get("password") as string)?.trim();
   const degree = Number(formData.get("degree"));
   const admin = formData.get("admin") === "on";
 
@@ -71,6 +72,14 @@ export async function createUserAction(
 
   if (!email) {
     return { error: "Email is required." };
+  }
+
+  if (!password) {
+    return { error: "Password is required." };
+  }
+
+  if (password.length < 6) {
+    return { error: "Password must be at least 6 characters." };
   }
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -99,8 +108,10 @@ export async function createUserAction(
       return { error: "A user with that username already exists." };
     }
 
+    const hashedPassword = await hashPassword(password);
+
     await prisma.user.create({
-      data: { username, email, degree, admin },
+      data: { username, email, password: hashedPassword, degree, admin },
     });
 
     revalidatePath("/users");
@@ -142,10 +153,15 @@ export async function changePasswordAction(
       return { error: "User not found." };
     }
 
-    // Note: In this simple auth system, the password is shared (admin123).
-    // This action is a placeholder for when per-user passwords are added to the schema.
-    // For now, it validates the form and returns success.
-    return { success: `Password change acknowledged for user ID ${userId}. Per-user passwords require a schema update.` };
+    const hashedPassword = await hashPassword(newPassword);
+
+    await prisma.user.update({
+      where: { id: userId },
+      data: { password: hashedPassword },
+    });
+
+    revalidatePath("/users");
+    return { success: `Password updated successfully for "${user.username}".` };
   } catch {
     return { error: "Failed to change password. Please try again." };
   }

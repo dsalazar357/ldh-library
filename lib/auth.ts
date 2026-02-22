@@ -1,10 +1,18 @@
 import { cookies } from "next/headers";
+import bcrypt from "bcrypt";
 
-const ADMIN_PASSWORD = "admin123";
 const SESSION_COOKIE = "ldh-session";
+const SALT_ROUNDS = 10;
 
-export async function verifyPassword(password: string): Promise<boolean> {
-  return password === ADMIN_PASSWORD;
+export async function verifyPassword(
+  password: string,
+  hashedPassword: string
+): Promise<boolean> {
+  return bcrypt.compare(password, hashedPassword);
+}
+
+export async function hashPassword(password: string): Promise<string> {
+  return bcrypt.hash(password, SALT_ROUNDS);
 }
 
 export async function createSession(username: string, admin: boolean) {
