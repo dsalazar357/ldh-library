@@ -1,11 +1,10 @@
-import prisma from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import LogoutButton from "@/components/logout-button";
-import UserEditCard from "@/components/user-edit-card";
+import CreateUserForm from "@/components/create-user-form";
 
-export default async function UsersPage() {
+export default async function CreateUserPage() {
   const session = await getSession();
 
   if (!session) {
@@ -15,10 +14,6 @@ export default async function UsersPage() {
   if (!session.admin) {
     redirect("/");
   }
-
-  const users = await prisma.user.findMany({
-    orderBy: { id: "asc" },
-  });
 
   return (
     <div className="min-h-screen bg-background">
@@ -30,18 +25,27 @@ export default async function UsersPage() {
           >
             LDH Library
           </Link>
-          <nav className="flex items-center gap-1" aria-label="Main navigation">
+          <nav
+            className="flex items-center gap-1"
+            aria-label="Main navigation"
+          >
             <Link
               href="/"
               className="text-sm text-muted-foreground hover:text-card-foreground px-3 py-1.5 rounded-lg hover:bg-muted transition-colors"
             >
               Home
             </Link>
+            <Link
+              href="/users"
+              className="text-sm text-muted-foreground hover:text-card-foreground px-3 py-1.5 rounded-lg hover:bg-muted transition-colors"
+            >
+              Users
+            </Link>
             <span
               className="text-sm text-card-foreground font-medium bg-muted px-3 py-1.5 rounded-lg"
               aria-current="page"
             >
-              Users
+              Create
             </span>
           </nav>
         </div>
@@ -60,34 +64,21 @@ export default async function UsersPage() {
         <div className="mb-8 flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-foreground font-sans">
-              Manage Users
+              Create User
             </h1>
             <p className="text-sm text-muted-foreground mt-1">
-              Edit user details, change passwords, and manage admin access.
+              Add a new user to the LDH Library system.
             </p>
           </div>
           <Link
-            href="/users/create"
-            className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 transition-all"
+            href="/users"
+            className="rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium text-card-foreground hover:bg-muted transition-colors focus:outline-none focus:ring-2 focus:ring-ring"
           >
-            + Create User
+            Back to Users
           </Link>
         </div>
 
-        <div className="flex flex-col gap-6">
-          {users.map((user) => (
-            <UserEditCard key={user.id} user={user} />
-          ))}
-        </div>
-
-        {users.length === 0 && (
-          <div className="text-center py-16 text-muted-foreground">
-            <p className="text-lg font-medium">No users found</p>
-            <p className="text-sm mt-1">
-              There are no users in the database yet.
-            </p>
-          </div>
-        )}
+        <CreateUserForm />
       </main>
     </div>
   );
