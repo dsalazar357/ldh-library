@@ -2,6 +2,7 @@
 
 import { useActionState, useRef } from "react";
 import { uploadRitualAction } from "@/app/actions/rituals";
+import { DEGREES, COUNTRIES } from "@/lib/constants";
 
 export default function RitualUploadForm() {
   const [state, formAction, isPending] = useActionState(
@@ -56,7 +57,7 @@ export default function RitualUploadForm() {
           />
         </div>
 
-        <div className="flex gap-4">
+          <div className="flex gap-4">
           <div className="flex flex-col gap-1.5 flex-1">
             <label
               htmlFor="upload-degree"
@@ -64,15 +65,19 @@ export default function RitualUploadForm() {
             >
               Degree <span className="text-destructive">*</span>
             </label>
-            <input
+            <select
               id="upload-degree"
               name="degree"
-              type="number"
               required
-              min={0}
               defaultValue={1}
-              className="rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-all"
-            />
+              className="rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-all"
+            >
+              {DEGREES.map((d) => (
+                <option key={d.value} value={d.value}>
+                  {d.label}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="flex flex-col gap-1.5 flex-1">
             <label
@@ -81,14 +86,22 @@ export default function RitualUploadForm() {
             >
               Country <span className="text-destructive">*</span>
             </label>
-            <input
+            <select
               id="upload-country"
               name="country"
-              type="text"
               required
-              placeholder="e.g. Mexico"
-              className="rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-all"
-            />
+              defaultValue=""
+              className="rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-all"
+            >
+              <option value="" disabled>
+                Select a country
+              </option>
+              {COUNTRIES.map((c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
 
