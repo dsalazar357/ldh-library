@@ -8,12 +8,13 @@ datasource db {
 }
 
 model User { 
-  id    Int     @id @default(autoincrement()) 
-  email String  @unique
-  username  String?
-  degree  Int
-  admin Boolean @default(false)
-  rituals Ritual[]
+  id       Int     @id @default(autoincrement()) 
+  email    String  @unique
+  username String?
+  password String
+  degree   Int
+  admin    Boolean @default(false)
+  rituals  Ritual[]
 } 
 
 model Ritual { 
