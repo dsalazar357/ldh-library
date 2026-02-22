@@ -51,6 +51,66 @@ export async function updateUserAction(
   }
 }
 
+export async function createUserAction(
+  _prevState: { error?: string; success?: string } | null,
+  formData: FormData
+) {
+  const session = await getSession();
+  if (!session || !session.admin) {
+    return { error: "Unauthorized. Admin access required." };
+  }
+
+  const username = (formData.get("username") as string)?.trim();
+  const email = (formData.get("email") as string)?.trim();
+  const degree = Number(formData.get("degree"));
+  const admin = formData.get("admin") === "on";
+
+  if (!username) {
+    return { error: "Username is required." };
+  }
+
+  if (!email) {
+    return { error: "Email is required." };
+  }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return { error: "Please enter a valid email address." };
+  }
+
+  if (isNaN(degree) || degree < 0) {
+    return { error: "Degree must be a valid number (0 or greater)." };
+  }
+
+  try {
+    const existing = await prisma.user.findFirst({
+      where: { email },
+    });
+
+    if (existing) {
+      return { error: "A user with that email already exists." };
+    }
+
+    const existingUsername = await prisma.user.findFirst({
+      where: { username },
+    });
+
+    if (existingUsername) {
+      return { error: "A user with that username already exists." };
+    }
+
+    await prisma.user.create({
+      data: { username, email, degree, admin },
+    });
+
+    revalidatePath("/users");
+    revalidatePath("/users/create");
+    return { success: `User "${username}" created successfully.` };
+  } catch {
+    return { error: "Failed to create user. Please try again." };
+  }
+}
+
 export async function changePasswordAction(
   _prevState: { error?: string; success?: string } | null,
   formData: FormData
