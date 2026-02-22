@@ -23,7 +23,7 @@ export async function loginAction(
     return { error: "User not found." };
   }
 
-  const isValid = await verifyPassword(password);
+  const isValid = await verifyPassword(password, user.password);
 
   if (!isValid) {
     return { error: "Invalid password." };
