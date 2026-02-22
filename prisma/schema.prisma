@@ -18,11 +18,12 @@ model User {
 } 
 
 model Ritual { 
-  id        Int     @id @default(autoincrement()) 
-  title     String
-  degree  Int
-  url   String
-  country String 
-  authorId  Int
-  author    User    @relation(fields: [authorId], references: [id]) 
+  id                Int     @id @default(autoincrement()) 
+  title             String
+  degree            Int
+  url               String
+  country           String
+  cloudinaryPublicId String?
+  authorId          Int
+  author            User    @relation(fields: [authorId], references: [id]) 
 } 
