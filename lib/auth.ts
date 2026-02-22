@@ -7,10 +7,10 @@ export async function verifyPassword(password: string): Promise<boolean> {
   return password === ADMIN_PASSWORD;
 }
 
-export async function createSession(username: string) {
+export async function createSession(username: string, admin: boolean) {
   const cookieStore = await cookies();
   const sessionData = Buffer.from(
-    JSON.stringify({ username, loggedInAt: Date.now() })
+    JSON.stringify({ username, admin, loggedInAt: Date.now() })
   ).toString("base64");
 
   cookieStore.set(SESSION_COOKIE, sessionData, {
@@ -24,6 +24,7 @@ export async function createSession(username: string) {
 
 export async function getSession(): Promise<{
   username: string;
+  admin: boolean;
   loggedInAt: number;
 } | null> {
   const cookieStore = await cookies();

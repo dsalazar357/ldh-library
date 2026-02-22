@@ -29,7 +29,7 @@ export async function loginAction(
     return { error: "Invalid password." };
   }
 
-  await createSession(username);
+  await createSession(username, user.admin);
   redirect("/");
 }
 
