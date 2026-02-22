@@ -26,24 +26,14 @@ export async function GET(
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
-  // Fetch the file from Cloudinary and serve it inline
-  const fileResponse = await fetch(ritual.url);
+  // For Cloudinary URLs, transform to enable inline viewing
+  // Raw uploads need fl_attachment:false to open in browser
+  let viewUrl = ritual.url;
 
-  if (!fileResponse.ok) {
-    return NextResponse.json(
-      { error: "Failed to fetch file" },
-      { status: 502 }
-    );
+  if (viewUrl.includes("res.cloudinary.com")) {
+    // Insert fl_attachment:false flag after /upload/ to force inline display
+    viewUrl = viewUrl.replace("/upload/", "/upload/fl_attachment:false/");
   }
 
-  const contentType =
-    fileResponse.headers.get("content-type") || "application/octet-stream";
-  const body = fileResponse.body;
-
-  return new NextResponse(body, {
-    headers: {
-      "Content-Type": contentType,
-      "Content-Disposition": `inline; filename="${encodeURIComponent(ritual.title)}"`,
-    },
-  });
+  return NextResponse.redirect(viewUrl);
 }
