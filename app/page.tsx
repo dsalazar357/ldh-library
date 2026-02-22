@@ -1,6 +1,5 @@
 import prisma from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
-import { getSignedUrl } from "@/lib/cloudinary";
 import { redirect } from "next/navigation";
 import AppHeader from "@/components/app-header";
 
@@ -12,14 +11,7 @@ export default async function Home() {
   }
 
   const users = await prisma.user.findMany();
-  const rawRituals = await prisma.ritual.findMany();
-
-  const rituals = rawRituals.map((ritual) => ({
-    ...ritual,
-    downloadUrl: ritual.cloudinaryPublicId
-      ? getSignedUrl(ritual.cloudinaryPublicId, { expiresInSeconds: 3600 })
-      : ritual.url,
-  }));
+  const rituals = await prisma.ritual.findMany();
 
   return (
     <div className="min-h-screen bg-background">
@@ -69,7 +61,7 @@ export default async function Home() {
                     Country: <span className="text-card-foreground">{ritual.country}</span>
                   </span>
                   <a
-                    href={ritual.downloadUrl}
+                    href={ritual.url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground hover:opacity-90 transition-opacity"

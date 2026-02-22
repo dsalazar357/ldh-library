@@ -1,6 +1,5 @@
 import prisma from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
-import { getSignedUrl } from "@/lib/cloudinary";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import AppHeader from "@/components/app-header";
@@ -13,18 +12,10 @@ export default async function RitualsPage() {
     redirect("/login");
   }
 
-  const rawRituals = await prisma.ritual.findMany({
+  const rituals = await prisma.ritual.findMany({
     orderBy: { id: "desc" },
     include: { author: true },
   });
-
-  // Generate signed download URLs for each ritual
-  const rituals = rawRituals.map((ritual) => ({
-    ...ritual,
-    downloadUrl: ritual.cloudinaryPublicId
-      ? getSignedUrl(ritual.cloudinaryPublicId, { expiresInSeconds: 3600 })
-      : ritual.url,
-  }));
 
   return (
     <div className="min-h-screen bg-background">
@@ -93,7 +84,7 @@ export default async function RitualsPage() {
                         </span>
                       </span>
                       <a
-                        href={ritual.downloadUrl}
+                        href={ritual.url}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground hover:opacity-90 transition-opacity"
