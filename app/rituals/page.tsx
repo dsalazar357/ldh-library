@@ -34,8 +34,8 @@ export default async function RitualsPage() {
         locale={locale}
       />
 
-      <main className="max-w-3xl mx-auto px-6 py-10">
-        <div className="mb-8 flex items-center justify-between">
+      <main className="max-w-3xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
+        <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <h1 className="text-2xl font-bold text-foreground font-sans">
               {t.title}
@@ -62,7 +62,7 @@ export default async function RitualsPage() {
             {rituals.map((ritual) => (
               <div
                 key={ritual.id}
-                className="bg-card rounded-xl border border-border p-5"
+                className="bg-card rounded-xl border border-border p-4 sm:p-5"
               >
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex-1 min-w-0">
@@ -75,8 +75,8 @@ export default async function RitualsPage() {
                         <span className="text-card-foreground">{ritual.degree}</span>
                       </span>
                       <span>
-                        {t.country}:{" "}
-                        <span className="text-card-foreground">{ritual.country}</span>
+                        {t.language}:{" "}
+                        <span className="text-card-foreground">{ritual.language}</span>
                       </span>
                       <span>
                         {t.author}:{" "}

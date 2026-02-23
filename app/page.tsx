@@ -10,7 +10,7 @@ import { getDictionary } from "@/lib/dictionaries";
 interface HomeProps {
   searchParams: Promise<{
     tab?: string;
-    country?: string;
+    language?: string;
     degree?: string;
     q?: string;
     org?: string;
@@ -31,14 +31,14 @@ export default async function Home({ searchParams }: HomeProps) {
   const params = await searchParams;
   const activeTab = params.tab === "study" ? "study" : "rituals";
 
-  const countryFilter = params.country || "";
+  const languageFilter = params.language || "";
   const degreeFilter = params.degree || "";
   const searchQuery = params.q || "";
   const orgFilter = params.org || "";
   const studyQuery = params.sq || "";
 
   const ritualWhere: Record<string, unknown> = {};
-  if (countryFilter) ritualWhere.country = countryFilter;
+  if (languageFilter) ritualWhere.language = languageFilter;
   if (degreeFilter) {
     const degreeNum = Number(degreeFilter);
     if (!isNaN(degreeNum)) ritualWhere.degree = degreeNum;
@@ -68,7 +68,7 @@ export default async function Home({ searchParams }: HomeProps) {
     }),
   ]);
 
-  const hasRitualFilters = !!(countryFilter || degreeFilter || searchQuery);
+  const hasRitualFilters = !!(languageFilter || degreeFilter || searchQuery);
   const hasStudyFilters = !!(orgFilter || studyQuery);
   const t = dict.home;
 
@@ -82,7 +82,7 @@ export default async function Home({ searchParams }: HomeProps) {
         locale={locale}
       />
 
-      <main className="max-w-4xl mx-auto px-6 py-10">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-foreground font-sans text-balance">
             {t.title}
@@ -122,12 +122,12 @@ export default async function Home({ searchParams }: HomeProps) {
         {activeTab === "rituals" && (
           <>
             <RitualFilters
-              currentCountry={countryFilter}
+              currentLanguage={languageFilter}
               currentDegree={degreeFilter}
               currentQuery={searchQuery}
               dict={{
                 searchByTitle: t.searchByTitle,
-                allCountries: t.allCountries,
+                allLanguages: t.allLanguages,
                 allDegrees: t.allDegrees,
               }}
             />
@@ -152,10 +152,10 @@ export default async function Home({ searchParams }: HomeProps) {
               {rituals.map((ritual) => (
                 <div
                   key={ritual.id}
-                  className="bg-card rounded-xl border border-border p-5"
+                  className="bg-card rounded-xl border border-border p-4 sm:p-5"
                 >
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex-1">
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">
+                    <div className="flex-1 min-w-0">
                       <h3 className="font-semibold text-card-foreground font-sans mb-1 text-pretty">
                         {ritual.title}
                       </h3>
@@ -175,7 +175,7 @@ export default async function Home({ searchParams }: HomeProps) {
                           {dict.common.degree}
                         </span>
                         <span className="inline-flex items-center rounded-md bg-muted px-2.5 py-1 text-xs font-medium text-card-foreground">
-                          {ritual.country}
+                          {ritual.language}
                         </span>
                       </div>
                     </div>
@@ -183,7 +183,7 @@ export default async function Home({ searchParams }: HomeProps) {
                       href={ritual.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground hover:opacity-90 transition-opacity"
+                      className="inline-flex self-start shrink-0 items-center gap-1.5 rounded-lg bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground hover:opacity-90 transition-opacity"
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
@@ -241,10 +241,10 @@ export default async function Home({ searchParams }: HomeProps) {
               {studyDocs.map((doc) => (
                 <div
                   key={doc.id}
-                  className="bg-card rounded-xl border border-border p-5"
+                  className="bg-card rounded-xl border border-border p-4 sm:p-5"
                 >
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex-1">
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">
+                    <div className="flex-1 min-w-0">
                       <h3 className="font-semibold text-card-foreground font-sans mb-1 text-pretty">
                         {doc.title}
                       </h3>
@@ -264,7 +264,7 @@ export default async function Home({ searchParams }: HomeProps) {
                       href={doc.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground hover:opacity-90 transition-opacity"
+                      className="inline-flex self-start shrink-0 items-center gap-1.5 rounded-lg bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground hover:opacity-90 transition-opacity"
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />

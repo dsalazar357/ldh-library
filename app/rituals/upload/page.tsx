@@ -25,7 +25,7 @@ export default async function RitualUploadPage() {
         locale={locale}
       />
 
-      <main className="max-w-3xl mx-auto px-6 py-10">
+      <main className="max-w-3xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-foreground font-sans">
             {dict.uploadRitualPage.title}

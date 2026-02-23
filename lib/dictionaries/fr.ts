@@ -46,7 +46,7 @@ const fr: Dictionary = {
     ritualsTab: "Rituels",
     studyDocsTab: "Documents d'étude",
     searchByTitle: "Rechercher par titre...",
-    allCountries: "Tous les pays",
+    allLanguages: "Toutes les langues",
     allDegrees: "Tous les degrés",
     filterByOrganization: "Filtrer par organisation...",
     noRitualsFound: "Aucun rituel trouvé",
@@ -56,7 +56,7 @@ const fr: Dictionary = {
     docsFound: (count: number) =>
       `${count} document${count !== 1 ? "s" : ""} trouvé${count !== 1 ? "s" : ""}`,
     noRitualsMatch: "Aucun rituel ne correspond à vos filtres",
-    tryAdjustingRituals: "Essayez d'ajuster le pays, le degré ou le terme de recherche.",
+    tryAdjustingRituals: "Essayez d'ajuster la langue, le degré ou le terme de recherche.",
     noDocsMatch: "Aucun document ne correspond à vos filtres",
     tryAdjustingDocs: "Essayez d'ajuster l'organisation ou le terme de recherche.",
   },
@@ -68,7 +68,7 @@ const fr: Dictionary = {
     noRitualsFound: "Aucun rituel trouvé",
     noRitualsYet: "Il n'y a pas encore de rituels dans la bibliothèque.",
     author: "Auteur",
-    country: "Pays",
+    language: "Langue",
   },
 
   studyDocsPage: {
@@ -87,8 +87,8 @@ const fr: Dictionary = {
     titleLabel: "Titre",
     titlePlaceholder: "ex. Emulation Lodge of Improvement",
     degreeLabel: "Degré",
-    countryLabel: "Pays",
-    selectCountry: "Sélectionnez un pays",
+    languageLabel: "Langue",
+    selectLanguage: "Sélectionnez une langue",
     fileLabel: "Fichier",
     fileHint: "Taille max : 50 Mo. PDF, images et autres formats acceptés.",
     uploading: "Envoi en cours...",

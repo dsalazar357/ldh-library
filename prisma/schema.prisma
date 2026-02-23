@@ -24,7 +24,7 @@ model Ritual {
   title             String
   degree            Int
   url               String
-  country           String
+  language          String
   cloudinaryPublicId String?
   authorId          Int
   author            User    @relation(fields: [authorId], references: [id]) 

@@ -27,7 +27,7 @@ export async function main() {
             title: "Prisma Test Ritual",
             degree: 1,
             url: "https://something.org",
-            country: "Mexico",
+            language: "Spanish",
           },
         ],
       },

@@ -2,21 +2,21 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
-import { DEGREES, COUNTRIES } from "@/lib/constants";
+import { DEGREES, LANGUAGES } from "@/lib/constants";
 
 interface RitualFiltersProps {
-  currentCountry: string;
+  currentLanguage: string;
   currentDegree: string;
   currentQuery: string;
   dict: {
     searchByTitle: string;
-    allCountries: string;
+    allLanguages: string;
     allDegrees: string;
   };
 }
 
 export default function RitualFilters({
-  currentCountry,
+  currentLanguage,
   currentDegree,
   currentQuery,
   dict,
@@ -72,19 +72,19 @@ export default function RitualFilters({
 
       <div className="flex gap-3">
         <div className="flex-1">
-          <label htmlFor="filter-country" className="sr-only">
-            {dict.allCountries}
+          <label htmlFor="filter-language" className="sr-only">
+            {dict.allLanguages}
           </label>
           <select
-            id="filter-country"
-            value={currentCountry}
-            onChange={(e) => updateFilter("country", e.target.value)}
+            id="filter-language"
+            value={currentLanguage}
+            onChange={(e) => updateFilter("language", e.target.value)}
             className="w-full rounded-xl border border-border bg-card px-4 py-3 text-sm text-card-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-all font-sans appearance-none cursor-pointer"
           >
-            <option value="">{dict.allCountries}</option>
-            {COUNTRIES.map((c) => (
-              <option key={c} value={c}>
-                {c}
+            <option value="">{dict.allLanguages}</option>
+            {LANGUAGES.map((l) => (
+              <option key={l} value={l}>
+                {l}
               </option>
             ))}
           </select>

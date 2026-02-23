@@ -46,7 +46,7 @@ const es: Dictionary = {
     ritualsTab: "Rituales",
     studyDocsTab: "Documentos de Estudio",
     searchByTitle: "Buscar por título...",
-    allCountries: "Todos los países",
+    allLanguages: "Todos los idiomas",
     allDegrees: "Todos los grados",
     filterByOrganization: "Filtrar por organización...",
     noRitualsFound: "No se encontraron rituales",
@@ -56,7 +56,7 @@ const es: Dictionary = {
     docsFound: (count: number) =>
       `${count} documento${count !== 1 ? "s" : ""} encontrado${count !== 1 ? "s" : ""}`,
     noRitualsMatch: "Ningún ritual coincide con tus filtros",
-    tryAdjustingRituals: "Intenta ajustar el país, grado o término de búsqueda.",
+    tryAdjustingRituals: "Intenta ajustar el idioma, grado o término de búsqueda.",
     noDocsMatch: "Ningún documento coincide con tus filtros",
     tryAdjustingDocs: "Intenta ajustar la organización o el término de búsqueda.",
   },
@@ -68,7 +68,7 @@ const es: Dictionary = {
     noRitualsFound: "No se encontraron rituales",
     noRitualsYet: "Aún no hay rituales en la biblioteca.",
     author: "Autor",
-    country: "País",
+    language: "Idioma",
   },
 
   studyDocsPage: {
@@ -87,8 +87,8 @@ const es: Dictionary = {
     titleLabel: "Título",
     titlePlaceholder: "ej. Emulation Lodge of Improvement",
     degreeLabel: "Grado",
-    countryLabel: "País",
-    selectCountry: "Selecciona un país",
+    languageLabel: "Idioma",
+    selectLanguage: "Selecciona un idioma",
     fileLabel: "Archivo",
     fileHint: "Tamaño máximo: 50MB. Compatible con PDF, imágenes y otros formatos.",
     uploading: "Subiendo...",
