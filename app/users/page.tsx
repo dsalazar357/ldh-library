@@ -37,8 +37,8 @@ export default async function UsersPage() {
         locale={locale}
       />
 
-      <main className="max-w-3xl mx-auto px-6 py-10">
-        <div className="mb-8 flex items-center justify-between">
+      <main className="max-w-3xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
+        <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <h1 className="text-2xl font-bold text-foreground font-sans">
               {t.title}

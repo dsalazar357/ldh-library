@@ -70,7 +70,7 @@ export default function RitualUploadForm({ dict }: RitualUploadFormProps) {
           />
         </div>
 
-        <div className="flex gap-4">
+        <div className="flex flex-col sm:flex-row gap-4">
           <div className="flex flex-col gap-1.5 flex-1">
             <label
               htmlFor="upload-degree"

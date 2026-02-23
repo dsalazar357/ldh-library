@@ -17,15 +17,15 @@ export default async function LoginPage() {
   const dict = await getDictionary(locale);
 
   return (
-    <div className="w-full min-h-screen bg-background flex-col items-center center justify-center px-4">
-      <div className="flex items-center justify-center pt-4">
+    <div className="w-full min-h-screen bg-background flex flex-col items-center justify-center px-4 py-8">
+      <div className="flex items-center justify-center mb-4">
         <LanguageSwitcher currentLocale={locale} />
       </div>
-      <div className="flex items-center justify-center p-4">
-        <Image src={"./logo-negro.svg"} alt={"Escudo LDH"} width={300} height={300}/>
+      <div className="flex items-center justify-center mb-4">
+        <Image src={"./logo-negro.svg"} alt={"Escudo LDH"} width={200} height={200} className="w-40 h-40 sm:w-56 sm:h-56 md:w-72 md:h-72"/>
       </div>
-      <div className="flex items-center justify-center p-4">
-        <div className="bg-card rounded-2xl border border-border p-8 shadow-sm">
+      <div className="w-full max-w-sm sm:max-w-md">
+        <div className="bg-card rounded-2xl border border-border p-6 sm:p-8 shadow-sm">
           <div className="flex flex-col items-center gap-2 mb-8">
             <h1 className="text-2xl font-bold text-card-foreground font-sans tracking-tight">
               {dict.login.title}
