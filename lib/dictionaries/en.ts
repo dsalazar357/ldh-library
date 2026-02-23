@@ -169,13 +169,148 @@ const en = {
 
 export default en;
 
-// Use a recursive type that widens literals to string and preserves function signatures
-type Widen<T> = T extends string
-  ? string
-  : T extends (...args: infer A) => infer R
-    ? (...args: A) => Widen<R>
-    : T extends object
-      ? { [K in keyof T]: Widen<T[K]> }
-      : T;
-
-export type Dictionary = Widen<typeof en>;
+export type Dictionary = {
+  common: {
+    appName: string;
+    signedInAs: string;
+    signOut: string;
+    download: string;
+    delete: string;
+    confirm: string;
+    cancel: string;
+    save: string;
+    saving: string;
+    reset: string;
+    back: string;
+    clearAllFilters: string;
+    uploadedBy: string;
+    unknown: string;
+    degree: string;
+    required: string;
+  };
+  nav: {
+    home: string;
+    rituals: string;
+    studyDocs: string;
+    upload: string;
+    uploadDoc: string;
+    users: string;
+  };
+  login: {
+    title: string;
+    subtitle: string;
+    username: string;
+    password: string;
+    usernamePlaceholder: string;
+    passwordPlaceholder: string;
+    signIn: string;
+    signingIn: string;
+  };
+  home: {
+    title: string;
+    subtitle: string;
+    ritualsTab: string;
+    studyDocsTab: string;
+    searchByTitle: string;
+    allCountries: string;
+    allDegrees: string;
+    filterByOrganization: string;
+    noRitualsFound: string;
+    ritualsFound: (count: number) => string;
+    noDocsFound: string;
+    docsFound: (count: number) => string;
+    noRitualsMatch: string;
+    tryAdjustingRituals: string;
+    noDocsMatch: string;
+    tryAdjustingDocs: string;
+  };
+  ritualsPage: {
+    title: string;
+    subtitle: string;
+    uploadRitual: string;
+    noRitualsFound: string;
+    noRitualsYet: string;
+    author: string;
+    country: string;
+  };
+  studyDocsPage: {
+    title: string;
+    subtitle: string;
+    uploadDocument: string;
+    noDocsFound: string;
+    noDocsYet: string;
+    organization: string;
+    author: string;
+  };
+  uploadRitualPage: {
+    title: string;
+    subtitle: string;
+    titleLabel: string;
+    titlePlaceholder: string;
+    degreeLabel: string;
+    countryLabel: string;
+    selectCountry: string;
+    fileLabel: string;
+    fileHint: string;
+    uploading: string;
+    uploadRitual: string;
+  };
+  uploadDocPage: {
+    title: string;
+    subtitle: string;
+    titleLabel: string;
+    titlePlaceholder: string;
+    organizationLabel: string;
+    organizationPlaceholder: string;
+    descriptionLabel: string;
+    descriptionPlaceholder: string;
+    fileLabel: string;
+    fileHint: string;
+    uploading: string;
+    uploadDocument: string;
+  };
+  usersPage: {
+    title: string;
+    subtitle: string;
+    createUser: string;
+    noUsersFound: string;
+    noUsersYet: string;
+    noUsername: string;
+    admin: string;
+    username: string;
+    email: string;
+    degree: string;
+    adminPrivileges: string;
+    changePassword: string;
+    cancelPasswordChange: string;
+    setNewPassword: string;
+    newPassword: string;
+    confirmPassword: string;
+    newPasswordPlaceholder: string;
+    confirmPasswordPlaceholder: string;
+    updatePassword: string;
+    updatingPassword: string;
+  };
+  createUserPage: {
+    title: string;
+    subtitle: string;
+    backToUsers: string;
+    newUserDetails: string;
+    newUserSubtitle: string;
+    username: string;
+    usernamePlaceholder: string;
+    email: string;
+    emailPlaceholder: string;
+    password: string;
+    passwordPlaceholder: string;
+    degree: string;
+    adminPrivileges: string;
+    createUser: string;
+    creating: string;
+  };
+  deleteConfirm: {
+    deleteRitual: (title: string) => string;
+    deleteDoc: (title: string) => string;
+    deleting: string;
+  };
+};
