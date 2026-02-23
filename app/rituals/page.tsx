@@ -30,7 +30,7 @@ export default async function RitualsPage() {
         username={session.username}
         isAdmin={session.admin}
         currentPage="rituals"
-        dict={dict}
+        dict={{ common: dict.common, nav: dict.nav }}
         locale={locale}
       />
 

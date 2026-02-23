@@ -21,7 +21,7 @@ export default async function RitualUploadPage() {
         username={session.username}
         isAdmin={session.admin}
         currentPage="upload"
-        dict={dict}
+        dict={{ common: dict.common, nav: dict.nav }}
         locale={locale}
       />
 
