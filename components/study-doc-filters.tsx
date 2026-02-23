@@ -6,11 +6,16 @@ import { useCallback } from "react";
 interface StudyDocFiltersProps {
   currentOrganization: string;
   currentQuery: string;
+  dict: {
+    searchByTitle: string;
+    filterByOrganization: string;
+  };
 }
 
 export default function StudyDocFilters({
   currentOrganization,
   currentQuery,
+  dict,
 }: StudyDocFiltersProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -18,7 +23,6 @@ export default function StudyDocFilters({
   const updateFilter = useCallback(
     (key: string, value: string) => {
       const params = new URLSearchParams(searchParams.toString());
-      // Keep the tab param
       params.set("tab", "study");
       if (value) {
         params.set(key, value);
@@ -51,7 +55,7 @@ export default function StudyDocFilters({
         </svg>
         <input
           type="text"
-          placeholder="Search by title..."
+          placeholder={dict.searchByTitle}
           defaultValue={currentQuery}
           onChange={(e) => {
             const value = e.target.value;
@@ -62,18 +66,18 @@ export default function StudyDocFilters({
             return () => clearTimeout(timeout);
           }}
           className="w-full rounded-xl border border-border bg-card pl-10 pr-4 py-3 text-sm text-card-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-all font-sans"
-          aria-label="Search study documents by title"
+          aria-label={dict.searchByTitle}
         />
       </div>
 
       <div>
         <label htmlFor="filter-organization" className="sr-only">
-          Filter by organization
+          {dict.filterByOrganization}
         </label>
         <input
           id="filter-organization"
           type="text"
-          placeholder="Filter by organization..."
+          placeholder={dict.filterByOrganization}
           defaultValue={currentOrganization}
           onChange={(e) => {
             const value = e.target.value;
@@ -84,7 +88,7 @@ export default function StudyDocFilters({
             return () => clearTimeout(timeout);
           }}
           className="w-full rounded-xl border border-border bg-card px-4 py-3 text-sm text-card-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-all font-sans"
-          aria-label="Filter by organization"
+          aria-label={dict.filterByOrganization}
         />
       </div>
     </div>

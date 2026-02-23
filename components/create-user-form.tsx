@@ -4,7 +4,26 @@ import { useActionState, useRef } from "react";
 import { createUserAction } from "@/app/actions/users";
 import { DEGREES } from "@/lib/constants";
 
-export default function CreateUserForm() {
+interface CreateUserFormDict {
+  newUserDetails: string;
+  newUserSubtitle: string;
+  username: string;
+  usernamePlaceholder: string;
+  email: string;
+  emailPlaceholder: string;
+  password: string;
+  passwordPlaceholder: string;
+  degree: string;
+  adminPrivileges: string;
+  createUser: string;
+  creating: string;
+}
+
+interface CreateUserFormProps {
+  dict: CreateUserFormDict;
+}
+
+export default function CreateUserForm({ dict }: CreateUserFormProps) {
   const formRef = useRef<HTMLFormElement>(null);
   const [state, action, isPending] = useActionState(
     async (
@@ -28,10 +47,10 @@ export default function CreateUserForm() {
     >
       <div className="px-5 py-4 border-b border-border">
         <h2 className="font-semibold text-card-foreground font-sans">
-          New User Details
+          {dict.newUserDetails}
         </h2>
         <p className="text-xs text-muted-foreground mt-0.5">
-          Fill in the information below to create a new user account.
+          {dict.newUserSubtitle}
         </p>
       </div>
 
@@ -42,14 +61,14 @@ export default function CreateUserForm() {
               htmlFor="create-username"
               className="text-xs font-medium text-muted-foreground"
             >
-              Username <span className="text-destructive">*</span>
+              {dict.username} <span className="text-destructive">*</span>
             </label>
             <input
               id="create-username"
               name="username"
               type="text"
               required
-              placeholder="e.g. jdoe"
+              placeholder={dict.usernamePlaceholder}
               className="rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-all"
             />
           </div>
@@ -58,14 +77,14 @@ export default function CreateUserForm() {
               htmlFor="create-email"
               className="text-xs font-medium text-muted-foreground"
             >
-              Email <span className="text-destructive">*</span>
+              {dict.email} <span className="text-destructive">*</span>
             </label>
             <input
               id="create-email"
               name="email"
               type="email"
               required
-              placeholder="e.g. jdoe@example.com"
+              placeholder={dict.emailPlaceholder}
               className="rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-all"
             />
           </div>
@@ -74,7 +93,7 @@ export default function CreateUserForm() {
               htmlFor="create-password"
               className="text-xs font-medium text-muted-foreground"
             >
-              Password <span className="text-destructive">*</span>
+              {dict.password} <span className="text-destructive">*</span>
             </label>
             <input
               id="create-password"
@@ -82,7 +101,7 @@ export default function CreateUserForm() {
               type="password"
               required
               minLength={6}
-              placeholder="Minimum 6 characters"
+              placeholder={dict.passwordPlaceholder}
               className="rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-all"
             />
           </div>
@@ -91,7 +110,7 @@ export default function CreateUserForm() {
               htmlFor="create-degree"
               className="text-xs font-medium text-muted-foreground"
             >
-              Degree <span className="text-destructive">*</span>
+              {dict.degree} <span className="text-destructive">*</span>
             </label>
             <select
               id="create-degree"
@@ -115,7 +134,7 @@ export default function CreateUserForm() {
                 className="w-4 h-4 rounded border-border text-primary focus:ring-ring accent-primary"
               />
               <span className="text-sm text-card-foreground">
-                Admin privileges
+                {dict.adminPrivileges}
               </span>
             </label>
           </div>
@@ -138,7 +157,7 @@ export default function CreateUserForm() {
             disabled={isPending}
             className="rounded-lg bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isPending ? "Creating..." : "Create User"}
+            {isPending ? dict.creating : dict.createUser}
           </button>
           <button
             type="reset"

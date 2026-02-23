@@ -8,12 +8,18 @@ interface RitualFiltersProps {
   currentCountry: string;
   currentDegree: string;
   currentQuery: string;
+  dict: {
+    searchByTitle: string;
+    allCountries: string;
+    allDegrees: string;
+  };
 }
 
 export default function RitualFilters({
   currentCountry,
   currentDegree,
   currentQuery,
+  dict,
 }: RitualFiltersProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -52,23 +58,22 @@ export default function RitualFilters({
         </svg>
         <input
           type="text"
-          placeholder="Search by title..."
+          placeholder={dict.searchByTitle}
           defaultValue={currentQuery}
           onChange={(e) => {
             const value = e.target.value;
-            // Debounce: only update after the user stops typing
             const timeout = setTimeout(() => updateFilter("q", value), 350);
             return () => clearTimeout(timeout);
           }}
           className="w-full rounded-xl border border-border bg-card pl-10 pr-4 py-3 text-sm text-card-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-all font-sans"
-          aria-label="Search rituals by title"
+          aria-label={dict.searchByTitle}
         />
       </div>
 
       <div className="flex gap-3">
         <div className="flex-1">
           <label htmlFor="filter-country" className="sr-only">
-            Filter by country
+            {dict.allCountries}
           </label>
           <select
             id="filter-country"
@@ -76,7 +81,7 @@ export default function RitualFilters({
             onChange={(e) => updateFilter("country", e.target.value)}
             className="w-full rounded-xl border border-border bg-card px-4 py-3 text-sm text-card-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-all font-sans appearance-none cursor-pointer"
           >
-            <option value="">All Countries</option>
+            <option value="">{dict.allCountries}</option>
             {COUNTRIES.map((c) => (
               <option key={c} value={c}>
                 {c}
@@ -87,7 +92,7 @@ export default function RitualFilters({
 
         <div className="flex-1">
           <label htmlFor="filter-degree" className="sr-only">
-            Filter by degree
+            {dict.allDegrees}
           </label>
           <select
             id="filter-degree"
@@ -95,7 +100,7 @@ export default function RitualFilters({
             onChange={(e) => updateFilter("degree", e.target.value)}
             className="w-full rounded-xl border border-border bg-card px-4 py-3 text-sm text-card-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-all font-sans appearance-none cursor-pointer"
           >
-            <option value="">All Degrees</option>
+            <option value="">{dict.allDegrees}</option>
             {DEGREES.map((d) => (
               <option key={d.value} value={d.value}>
                 {d.label} Degree

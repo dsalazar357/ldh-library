@@ -3,7 +3,22 @@
 import { useActionState, useRef } from "react";
 import { uploadStudyDocumentAction } from "@/app/actions/study-documents";
 
-export default function StudyDocUploadForm() {
+interface StudyDocUploadFormProps {
+  dict: {
+    titleLabel: string;
+    titlePlaceholder: string;
+    organizationLabel: string;
+    organizationPlaceholder: string;
+    descriptionLabel: string;
+    descriptionPlaceholder: string;
+    fileLabel: string;
+    fileHint: string;
+    uploading: string;
+    uploadDocument: string;
+  };
+}
+
+export default function StudyDocUploadForm({ dict }: StudyDocUploadFormProps) {
   const [state, formAction, isPending] = useActionState(
     uploadStudyDocumentAction,
     null
@@ -43,14 +58,14 @@ export default function StudyDocUploadForm() {
             htmlFor="doc-title"
             className="text-xs font-medium text-muted-foreground"
           >
-            Title <span className="text-destructive">*</span>
+            {dict.titleLabel} <span className="text-destructive">*</span>
           </label>
           <input
             id="doc-title"
             name="title"
             type="text"
             required
-            placeholder="e.g. The Symbolism of Freemasonry"
+            placeholder={dict.titlePlaceholder}
             className="rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-all"
           />
         </div>
@@ -60,14 +75,14 @@ export default function StudyDocUploadForm() {
             htmlFor="doc-organization"
             className="text-xs font-medium text-muted-foreground"
           >
-            Organization <span className="text-destructive">*</span>
+            {dict.organizationLabel} <span className="text-destructive">*</span>
           </label>
           <input
             id="doc-organization"
             name="organization"
             type="text"
             required
-            placeholder="e.g. Grand Lodge of France"
+            placeholder={dict.organizationPlaceholder}
             className="rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-all"
           />
         </div>
@@ -77,14 +92,14 @@ export default function StudyDocUploadForm() {
             htmlFor="doc-description"
             className="text-xs font-medium text-muted-foreground"
           >
-            Description <span className="text-destructive">*</span>
+            {dict.descriptionLabel} <span className="text-destructive">*</span>
           </label>
           <textarea
             id="doc-description"
             name="description"
             required
             rows={3}
-            placeholder="A brief description of the document..."
+            placeholder={dict.descriptionPlaceholder}
             className="rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-all resize-y"
           />
         </div>
@@ -94,7 +109,7 @@ export default function StudyDocUploadForm() {
             htmlFor="doc-file"
             className="text-xs font-medium text-muted-foreground"
           >
-            File <span className="text-destructive">*</span>
+            {dict.fileLabel} <span className="text-destructive">*</span>
           </label>
           <input
             id="doc-file"
@@ -104,8 +119,7 @@ export default function StudyDocUploadForm() {
             className="rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground file:mr-3 file:rounded-md file:border-0 file:bg-primary file:px-3 file:py-1 file:text-sm file:font-medium file:text-primary-foreground file:cursor-pointer hover:file:opacity-90 focus:outline-none focus:ring-2 focus:ring-ring transition-all"
           />
           <p className="text-xs text-muted-foreground">
-            Max file size: 50MB. Supports PDF, images, and other document
-            formats.
+            {dict.fileHint}
           </p>
         </div>
 
@@ -114,7 +128,7 @@ export default function StudyDocUploadForm() {
           disabled={isPending}
           className="self-start rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isPending ? "Uploading..." : "Upload Document"}
+          {isPending ? dict.uploading : dict.uploadDocument}
         </button>
       </div>
     </form>
