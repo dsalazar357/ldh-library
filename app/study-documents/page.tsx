@@ -101,7 +101,10 @@ export default async function StudyDocumentsPage() {
                       <StudyDocDeleteButton
                         documentId={doc.id}
                         documentTitle={doc.title}
-                        dict={dict.deleteConfirm}
+                        dict={{
+                          deleteDoc: dict.deleteConfirm.deleteDoc(doc.title),
+                          deleting: dict.deleteConfirm.deleting,
+                        }}
                         commonDict={dict.common}
                       />
                     </div>
