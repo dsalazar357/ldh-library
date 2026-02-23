@@ -39,7 +39,7 @@ export default function AppHeader({
           href="/"
           className="text-lg font-bold text-card-foreground font-sans hover:opacity-80 transition-opacity"
         >
-          LDH Library
+          Le Droit Humain Library
         </Link>
         <nav className="flex items-center gap-1" aria-label="Main navigation">
           {visibleItems.map((item) => {
