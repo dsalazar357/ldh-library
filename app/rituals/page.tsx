@@ -102,7 +102,10 @@ export default async function RitualsPage() {
                       <RitualDeleteButton
                         ritualId={ritual.id}
                         ritualTitle={ritual.title}
-                        dict={dict.deleteConfirm}
+                        dict={{
+                          deleteRitual: dict.deleteConfirm.deleteRitual(ritual.title),
+                          deleting: dict.deleteConfirm.deleting,
+                        }}
                         commonDict={dict.common}
                       />
                     </div>

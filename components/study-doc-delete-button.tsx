@@ -7,7 +7,7 @@ interface StudyDocDeleteButtonProps {
   documentId: number;
   documentTitle: string;
   dict: {
-    deleteDoc: (title: string) => string;
+    deleteDoc: string;
     deleting: string;
   };
   commonDict: {
@@ -54,7 +54,7 @@ export default function StudyDocDeleteButton({
       ) : (
         <div className="flex items-center gap-2">
           <span className="text-xs text-muted-foreground">
-            {dict.deleteDoc(documentTitle)}
+            {dict.deleteDoc}
           </span>
           <form action={formAction}>
             <input type="hidden" name="documentId" value={documentId} />

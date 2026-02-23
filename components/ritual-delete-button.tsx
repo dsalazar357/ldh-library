@@ -7,7 +7,7 @@ interface RitualDeleteButtonProps {
   ritualId: number;
   ritualTitle: string;
   dict: {
-    deleteRitual: (title: string) => string;
+    deleteRitual: string;
     deleting: string;
   };
   commonDict: {
@@ -52,7 +52,7 @@ export default function RitualDeleteButton({
       ) : (
         <div className="flex items-center gap-2">
           <span className="text-xs text-muted-foreground">
-            {dict.deleteRitual(ritualTitle)}
+            {dict.deleteRitual}
           </span>
           <form action={formAction}>
             <input type="hidden" name="ritualId" value={ritualId} />
