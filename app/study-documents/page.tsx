@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import AppHeader from "@/components/app-header";
 import StudyDocDeleteButton from "@/components/study-doc-delete-button";
+import { getLocale } from "@/lib/i18n";
+import { getDictionary } from "@/lib/dictionaries";
 
 export default async function StudyDocumentsPage() {
   const session = await getSession();
@@ -12,47 +14,48 @@ export default async function StudyDocumentsPage() {
     redirect("/login");
   }
 
+  const locale = await getLocale();
+  const dict = await getDictionary(locale);
+
   const documents = await prisma.studyDocument.findMany({
     orderBy: { id: "desc" },
     include: { author: true },
   });
+
+  const t = dict.studyDocsPage;
 
   return (
     <div className="min-h-screen bg-background">
       <AppHeader
         username={session.username}
         isAdmin={session.admin}
-        currentPage="Study Docs"
+        currentPage="studyDocs"
+        dict={dict}
+        locale={locale}
       />
 
       <main className="max-w-3xl mx-auto px-6 py-10">
         <div className="mb-8 flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-foreground font-sans">
-              Study Documents
+              {t.title}
             </h1>
             <p className="text-sm text-muted-foreground mt-1">
-              Browse and manage study documents.
+              {t.subtitle}
             </p>
           </div>
-          {session.admin && (
-            <Link
-              href="/study-documents/upload"
-              className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 transition-all"
-            >
-              + Upload Document
-            </Link>
-          )}
+          <Link
+            href="/study-documents/upload"
+            className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 transition-all"
+          >
+            {t.uploadDocument}
+          </Link>
         </div>
 
         {documents.length === 0 ? (
           <div className="text-center py-16 text-muted-foreground">
-            <p className="text-lg font-medium text-foreground">
-              No study documents found
-            </p>
-            <p className="text-sm mt-1">
-              There are no study documents in the library yet.
-            </p>
+            <p className="text-lg font-medium text-foreground">{t.noDocsFound}</p>
+            <p className="text-sm mt-1">{t.noDocsYet}</p>
           </div>
         ) : (
           <div className="flex flex-col gap-4">
@@ -71,16 +74,12 @@ export default async function StudyDocumentsPage() {
                     </p>
                     <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-muted-foreground">
                       <span>
-                        Organization:{" "}
-                        <span className="text-card-foreground">
-                          {doc.organization}
-                        </span>
+                        {t.organization}:{" "}
+                        <span className="text-card-foreground">{doc.organization}</span>
                       </span>
                       <span>
-                        Author:{" "}
-                        <span className="text-card-foreground">
-                          {doc.author.username}
-                        </span>
+                        {t.author}:{" "}
+                        <span className="text-card-foreground">{doc.author.username}</span>
                       </span>
                       <a
                         href={doc.url}
@@ -88,23 +87,12 @@ export default async function StudyDocumentsPage() {
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground hover:opacity-90 transition-opacity"
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="14"
-                          height="14"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          aria-hidden="true"
-                        >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                           <polyline points="7 10 12 15 17 10" />
                           <line x1="12" x2="12" y1="15" y2="3" />
                         </svg>
-                        Download
+                        {dict.common.download}
                       </a>
                     </div>
                   </div>
@@ -113,6 +101,8 @@ export default async function StudyDocumentsPage() {
                       <StudyDocDeleteButton
                         documentId={doc.id}
                         documentTitle={doc.title}
+                        dict={dict.deleteConfirm}
+                        commonDict={dict.common}
                       />
                     </div>
                   )}

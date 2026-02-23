@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import AppHeader from "@/components/app-header";
 import RitualDeleteButton from "@/components/ritual-delete-button";
+import { getLocale } from "@/lib/i18n";
+import { getDictionary } from "@/lib/dictionaries";
 
 export default async function RitualsPage() {
   const session = await getSession();
@@ -12,45 +14,48 @@ export default async function RitualsPage() {
     redirect("/login");
   }
 
+  const locale = await getLocale();
+  const dict = await getDictionary(locale);
+
   const rituals = await prisma.ritual.findMany({
     orderBy: { id: "desc" },
     include: { author: true },
   });
+
+  const t = dict.ritualsPage;
 
   return (
     <div className="min-h-screen bg-background">
       <AppHeader
         username={session.username}
         isAdmin={session.admin}
-        currentPage="Rituals"
+        currentPage="rituals"
+        dict={dict}
+        locale={locale}
       />
 
       <main className="max-w-3xl mx-auto px-6 py-10">
         <div className="mb-8 flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-foreground font-sans">
-              Rituals
+              {t.title}
             </h1>
             <p className="text-sm text-muted-foreground mt-1">
-              Browse and manage ritual documents.
+              {t.subtitle}
             </p>
           </div>
-          {session.admin && (
-            <Link
-              href="/rituals/upload"
-              className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 transition-all"
-            >
-              + Upload Ritual
-            </Link>
-          )}
+          <Link
+            href="/rituals/upload"
+            className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 transition-all"
+          >
+            {t.uploadRitual}
+          </Link>
         </div>
 
         {rituals.length === 0 ? (
           <div className="text-center py-16 text-muted-foreground">
-            <p className="text-lg font-medium">No rituals found</p>
-            <p className="text-sm mt-1">
-              There are no rituals in the library yet.
-            </p>
+            <p className="text-lg font-medium">{t.noRitualsFound}</p>
+            <p className="text-sm mt-1">{t.noRitualsYet}</p>
           </div>
         ) : (
           <div className="flex flex-col gap-4">
@@ -66,22 +71,16 @@ export default async function RitualsPage() {
                     </h3>
                     <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-muted-foreground">
                       <span>
-                        Degree:{" "}
-                        <span className="text-card-foreground">
-                          {ritual.degree}
-                        </span>
+                        {dict.common.degree}:{" "}
+                        <span className="text-card-foreground">{ritual.degree}</span>
                       </span>
                       <span>
-                        Country:{" "}
-                        <span className="text-card-foreground">
-                          {ritual.country}
-                        </span>
+                        {t.country}:{" "}
+                        <span className="text-card-foreground">{ritual.country}</span>
                       </span>
                       <span>
-                        Author:{" "}
-                        <span className="text-card-foreground">
-                          {ritual.author.username}
-                        </span>
+                        {t.author}:{" "}
+                        <span className="text-card-foreground">{ritual.author.username}</span>
                       </span>
                       <a
                         href={ritual.url}
@@ -89,23 +88,12 @@ export default async function RitualsPage() {
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground hover:opacity-90 transition-opacity"
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="14"
-                          height="14"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          aria-hidden="true"
-                        >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                           <polyline points="7 10 12 15 17 10" />
                           <line x1="12" x2="12" y1="15" y2="3" />
                         </svg>
-                        Download
+                        {dict.common.download}
                       </a>
                     </div>
                   </div>
@@ -114,6 +102,8 @@ export default async function RitualsPage() {
                       <RitualDeleteButton
                         ritualId={ritual.id}
                         ritualTitle={ritual.title}
+                        dict={dict.deleteConfirm}
+                        commonDict={dict.common}
                       />
                     </div>
                   )}

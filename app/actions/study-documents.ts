@@ -10,8 +10,8 @@ export async function uploadStudyDocumentAction(
   formData: FormData
 ) {
   const session = await getSession();
-  if (!session || !session.admin) {
-    return { error: "Unauthorized. Admin access required." };
+  if (!session) {
+    return { error: "Unauthorized. Please sign in." };
   }
 
   const title = (formData.get("title") as string)?.trim();

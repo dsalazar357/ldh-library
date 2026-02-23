@@ -12,7 +12,34 @@ type User = {
   admin: boolean;
 };
 
-export default function UserEditCard({ user }: { user: User }) {
+interface UserEditCardDict {
+  noUsername: string;
+  admin: string;
+  username: string;
+  email: string;
+  degree: string;
+  adminPrivileges: string;
+  changePassword: string;
+  cancelPasswordChange: string;
+  setNewPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+  newPasswordPlaceholder: string;
+  confirmPasswordPlaceholder: string;
+  updatePassword: string;
+  updatingPassword: string;
+}
+
+interface UserEditCardProps {
+  user: User;
+  dict: UserEditCardDict;
+  commonDict: {
+    save: string;
+    saving: string;
+  };
+}
+
+export default function UserEditCard({ user, dict, commonDict }: UserEditCardProps) {
   const [showPasswordForm, setShowPasswordForm] = useState(false);
   const [updateState, updateAction, isUpdating] = useActionState(
     updateUserAction,
@@ -32,14 +59,14 @@ export default function UserEditCard({ user }: { user: User }) {
           </div>
           <div>
             <p className="font-semibold text-card-foreground font-sans">
-              {user.username || "No username"}
+              {user.username || dict.noUsername}
             </p>
             <p className="text-xs text-muted-foreground">{user.email}</p>
           </div>
         </div>
         {user.admin && (
           <span className="text-xs font-medium bg-primary text-primary-foreground px-2 py-0.5 rounded-full">
-            Admin
+            {dict.admin}
           </span>
         )}
       </div>
@@ -53,7 +80,7 @@ export default function UserEditCard({ user }: { user: User }) {
               htmlFor={`username-${user.id}`}
               className="text-xs font-medium text-muted-foreground"
             >
-              Username
+              {dict.username}
             </label>
             <input
               id={`username-${user.id}`}
@@ -69,7 +96,7 @@ export default function UserEditCard({ user }: { user: User }) {
               htmlFor={`email-${user.id}`}
               className="text-xs font-medium text-muted-foreground"
             >
-              Email
+              {dict.email}
             </label>
             <input
               id={`email-${user.id}`}
@@ -85,7 +112,7 @@ export default function UserEditCard({ user }: { user: User }) {
               htmlFor={`degree-${user.id}`}
               className="text-xs font-medium text-muted-foreground"
             >
-              Degree
+              {dict.degree}
             </label>
             <select
               id={`degree-${user.id}`}
@@ -109,7 +136,7 @@ export default function UserEditCard({ user }: { user: User }) {
                 defaultChecked={user.admin}
                 className="w-4 h-4 rounded border-border text-primary focus:ring-ring accent-primary"
               />
-              <span className="text-sm text-card-foreground">Admin</span>
+              <span className="text-sm text-card-foreground">{dict.adminPrivileges}</span>
             </label>
           </div>
         </div>
@@ -131,14 +158,14 @@ export default function UserEditCard({ user }: { user: User }) {
             disabled={isUpdating}
             className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isUpdating ? "Saving..." : "Save Changes"}
+            {isUpdating ? commonDict.saving : commonDict.save}
           </button>
           <button
             type="button"
             onClick={() => setShowPasswordForm((prev) => !prev)}
             className="rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium text-card-foreground hover:bg-muted transition-colors focus:outline-none focus:ring-2 focus:ring-ring"
           >
-            {showPasswordForm ? "Cancel Password Change" : "Change Password"}
+            {showPasswordForm ? dict.cancelPasswordChange : dict.changePassword}
           </button>
         </div>
       </form>
@@ -150,7 +177,7 @@ export default function UserEditCard({ user }: { user: User }) {
         >
           <input type="hidden" name="userId" value={user.id} />
           <p className="text-sm font-medium text-card-foreground">
-            Set New Password
+            {dict.setNewPassword}
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="flex flex-col gap-1.5">
@@ -158,7 +185,7 @@ export default function UserEditCard({ user }: { user: User }) {
                 htmlFor={`newPassword-${user.id}`}
                 className="text-xs font-medium text-muted-foreground"
               >
-                New Password
+                {dict.newPassword}
               </label>
               <input
                 id={`newPassword-${user.id}`}
@@ -166,7 +193,7 @@ export default function UserEditCard({ user }: { user: User }) {
                 type="password"
                 required
                 minLength={6}
-                placeholder="Min. 6 characters"
+                placeholder={dict.newPasswordPlaceholder}
                 className="rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-all"
               />
             </div>
@@ -175,7 +202,7 @@ export default function UserEditCard({ user }: { user: User }) {
                 htmlFor={`confirmPassword-${user.id}`}
                 className="text-xs font-medium text-muted-foreground"
               >
-                Confirm Password
+                {dict.confirmPassword}
               </label>
               <input
                 id={`confirmPassword-${user.id}`}
@@ -183,7 +210,7 @@ export default function UserEditCard({ user }: { user: User }) {
                 type="password"
                 required
                 minLength={6}
-                placeholder="Re-enter password"
+                placeholder={dict.confirmPasswordPlaceholder}
                 className="rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-all"
               />
             </div>
@@ -205,7 +232,7 @@ export default function UserEditCard({ user }: { user: User }) {
             disabled={isChangingPassword}
             className="self-start rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isChangingPassword ? "Updating..." : "Update Password"}
+            {isChangingPassword ? dict.updatingPassword : dict.updatePassword}
           </button>
         </form>
       )}

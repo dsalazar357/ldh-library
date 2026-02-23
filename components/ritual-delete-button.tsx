@@ -6,11 +6,22 @@ import { deleteRitualAction } from "@/app/actions/rituals";
 interface RitualDeleteButtonProps {
   ritualId: number;
   ritualTitle: string;
+  dict: {
+    deleteRitual: (title: string) => string;
+    deleting: string;
+  };
+  commonDict: {
+    delete: string;
+    confirm: string;
+    cancel: string;
+  };
 }
 
 export default function RitualDeleteButton({
   ritualId,
   ritualTitle,
+  dict,
+  commonDict,
 }: RitualDeleteButtonProps) {
   const [showConfirm, setShowConfirm] = useState(false);
   const [state, formAction, isPending] = useActionState(
@@ -36,12 +47,12 @@ export default function RitualDeleteButton({
           onClick={() => setShowConfirm(true)}
           className="rounded-lg border border-destructive/30 bg-destructive/5 px-3 py-1.5 text-xs font-medium text-destructive hover:bg-destructive/10 focus:outline-none focus:ring-2 focus:ring-destructive/50 transition-all"
         >
-          Delete
+          {commonDict.delete}
         </button>
       ) : (
         <div className="flex items-center gap-2">
           <span className="text-xs text-muted-foreground">
-            Delete &quot;{ritualTitle}&quot;?
+            {dict.deleteRitual(ritualTitle)}
           </span>
           <form action={formAction}>
             <input type="hidden" name="ritualId" value={ritualId} />
@@ -50,7 +61,7 @@ export default function RitualDeleteButton({
               disabled={isPending}
               className="rounded-lg bg-destructive px-3 py-1.5 text-xs font-semibold text-destructive-foreground hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-destructive/50 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isPending ? "Deleting..." : "Confirm"}
+              {isPending ? dict.deleting : commonDict.confirm}
             </button>
           </form>
           <button
@@ -58,7 +69,7 @@ export default function RitualDeleteButton({
             onClick={() => setShowConfirm(false)}
             className="rounded-lg border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-card-foreground hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring transition-all"
           >
-            Cancel
+            {commonDict.cancel}
           </button>
         </div>
       )}
