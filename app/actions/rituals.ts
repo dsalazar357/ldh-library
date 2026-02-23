@@ -16,7 +16,7 @@ export async function uploadRitualAction(
 
   const title = (formData.get("title") as string)?.trim();
   const degree = Number(formData.get("degree"));
-  const country = (formData.get("country") as string)?.trim();
+  const language = (formData.get("language") as string)?.trim();
   const file = formData.get("file") as File | null;
 
   if (!title) {
@@ -25,8 +25,8 @@ export async function uploadRitualAction(
   if (isNaN(degree) || degree < 0) {
     return { error: "Degree must be a valid number (0 or greater)." };
   }
-  if (!country) {
-    return { error: "Country is required." };
+  if (!language) {
+    return { error: "Language is required." };
   }
   if (!file || file.size === 0) {
     return { error: "Please select a file to upload." };
@@ -80,7 +80,7 @@ export async function uploadRitualAction(
       data: {
         title,
         degree,
-        country,
+        language,
         url: uploadResult.secure_url,
         cloudinaryPublicId: uploadResult.public_id,
         authorId: user.id,

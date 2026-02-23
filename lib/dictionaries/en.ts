@@ -48,7 +48,7 @@ const en = {
     ritualsTab: "Rituals",
     studyDocsTab: "Study Documents",
     searchByTitle: "Search by title...",
-    allCountries: "All Countries",
+    allLanguages: "All Languages",
     allDegrees: "All Degrees",
     filterByOrganization: "Filter by organization...",
     noRitualsFound: "No rituals found",
@@ -58,7 +58,7 @@ const en = {
     docsFound: (count: number) =>
       `${count} document${count !== 1 ? "s" : ""} found`,
     noRitualsMatch: "No rituals match your filters",
-    tryAdjustingRituals: "Try adjusting the country, degree, or search term.",
+    tryAdjustingRituals: "Try adjusting the language, degree, or search term.",
     noDocsMatch: "No documents match your filters",
     tryAdjustingDocs: "Try adjusting the organization or search term.",
   },
@@ -71,7 +71,7 @@ const en = {
     noRitualsFound: "No rituals found",
     noRitualsYet: "There are no rituals in the library yet.",
     author: "Author",
-    country: "Country",
+    language: "Language",
   },
 
   // Study documents page
@@ -92,8 +92,8 @@ const en = {
     titleLabel: "Title",
     titlePlaceholder: "e.g. Emulation Lodge of Improvement",
     degreeLabel: "Degree",
-    countryLabel: "Country",
-    selectCountry: "Select a country",
+    languageLabel: "Language",
+    selectLanguage: "Select a language",
     fileLabel: "File",
     fileHint: "Max file size: 50MB. Supports PDF, images, and other document formats.",
     uploading: "Uploading...",
@@ -218,7 +218,7 @@ export type Dictionary = {
     ritualsTab: string;
     studyDocsTab: string;
     searchByTitle: string;
-    allCountries: string;
+    allLanguages: string;
     allDegrees: string;
     filterByOrganization: string;
     noRitualsFound: string;
@@ -237,7 +237,7 @@ export type Dictionary = {
     noRitualsFound: string;
     noRitualsYet: string;
     author: string;
-    country: string;
+    language: string;
   };
   studyDocsPage: {
     title: string;
@@ -254,8 +254,8 @@ export type Dictionary = {
     titleLabel: string;
     titlePlaceholder: string;
     degreeLabel: string;
-    countryLabel: string;
-    selectCountry: string;
+    languageLabel: string;
+    selectLanguage: string;
     fileLabel: string;
     fileHint: string;
     uploading: string;

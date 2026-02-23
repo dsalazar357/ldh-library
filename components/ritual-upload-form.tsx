@@ -2,15 +2,15 @@
 
 import { useActionState, useRef } from "react";
 import { uploadRitualAction } from "@/app/actions/rituals";
-import { DEGREES, COUNTRIES } from "@/lib/constants";
+import { DEGREES, LANGUAGES } from "@/lib/constants";
 
 interface RitualUploadFormProps {
   dict: {
     titleLabel: string;
     titlePlaceholder: string;
     degreeLabel: string;
-    countryLabel: string;
-    selectCountry: string;
+    languageLabel: string;
+    selectLanguage: string;
     fileLabel: string;
     fileHint: string;
     uploading: string;
@@ -94,24 +94,24 @@ export default function RitualUploadForm({ dict }: RitualUploadFormProps) {
           </div>
           <div className="flex flex-col gap-1.5 flex-1">
             <label
-              htmlFor="upload-country"
+              htmlFor="upload-language"
               className="text-xs font-medium text-muted-foreground"
             >
-              {dict.countryLabel} <span className="text-destructive">*</span>
+              {dict.languageLabel} <span className="text-destructive">*</span>
             </label>
             <select
-              id="upload-country"
-              name="country"
+              id="upload-language"
+              name="language"
               required
               defaultValue=""
               className="rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-all"
             >
               <option value="" disabled>
-                {dict.selectCountry}
+                {dict.selectLanguage}
               </option>
-              {COUNTRIES.map((c) => (
-                <option key={c} value={c}>
-                  {c}
+              {LANGUAGES.map((l) => (
+                <option key={l} value={l}>
+                  {l}
                 </option>
               ))}
             </select>

@@ -75,8 +75,8 @@ export default async function RitualsPage() {
                         <span className="text-card-foreground">{ritual.degree}</span>
                       </span>
                       <span>
-                        {t.country}:{" "}
-                        <span className="text-card-foreground">{ritual.country}</span>
+                        {t.language}:{" "}
+                        <span className="text-card-foreground">{ritual.language}</span>
                       </span>
                       <span>
                         {t.author}:{" "}

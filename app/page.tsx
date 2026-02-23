@@ -10,7 +10,7 @@ import { getDictionary } from "@/lib/dictionaries";
 interface HomeProps {
   searchParams: Promise<{
     tab?: string;
-    country?: string;
+    language?: string;
     degree?: string;
     q?: string;
     org?: string;
@@ -31,14 +31,14 @@ export default async function Home({ searchParams }: HomeProps) {
   const params = await searchParams;
   const activeTab = params.tab === "study" ? "study" : "rituals";
 
-  const countryFilter = params.country || "";
+  const languageFilter = params.language || "";
   const degreeFilter = params.degree || "";
   const searchQuery = params.q || "";
   const orgFilter = params.org || "";
   const studyQuery = params.sq || "";
 
   const ritualWhere: Record<string, unknown> = {};
-  if (countryFilter) ritualWhere.country = countryFilter;
+  if (languageFilter) ritualWhere.language = languageFilter;
   if (degreeFilter) {
     const degreeNum = Number(degreeFilter);
     if (!isNaN(degreeNum)) ritualWhere.degree = degreeNum;
@@ -68,7 +68,7 @@ export default async function Home({ searchParams }: HomeProps) {
     }),
   ]);
 
-  const hasRitualFilters = !!(countryFilter || degreeFilter || searchQuery);
+  const hasRitualFilters = !!(languageFilter || degreeFilter || searchQuery);
   const hasStudyFilters = !!(orgFilter || studyQuery);
   const t = dict.home;
 
@@ -122,12 +122,12 @@ export default async function Home({ searchParams }: HomeProps) {
         {activeTab === "rituals" && (
           <>
             <RitualFilters
-              currentCountry={countryFilter}
+              currentLanguage={languageFilter}
               currentDegree={degreeFilter}
               currentQuery={searchQuery}
               dict={{
                 searchByTitle: t.searchByTitle,
-                allCountries: t.allCountries,
+                allLanguages: t.allLanguages,
                 allDegrees: t.allDegrees,
               }}
             />
@@ -175,7 +175,7 @@ export default async function Home({ searchParams }: HomeProps) {
                           {dict.common.degree}
                         </span>
                         <span className="inline-flex items-center rounded-md bg-muted px-2.5 py-1 text-xs font-medium text-card-foreground">
-                          {ritual.country}
+                          {ritual.language}
                         </span>
                       </div>
                     </div>
