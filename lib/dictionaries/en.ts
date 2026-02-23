@@ -165,7 +165,17 @@ const en = {
     deleteDoc: (title: string) => `Delete "${title}"?`,
     deleting: "Deleting...",
   },
-} as const;
+};
 
 export default en;
-export type Dictionary = typeof en;
+
+// Use a recursive type that widens literals to string and preserves function signatures
+type Widen<T> = T extends string
+  ? string
+  : T extends (...args: infer A) => infer R
+    ? (...args: A) => Widen<R>
+    : T extends object
+      ? { [K in keyof T]: Widen<T[K]> }
+      : T;
+
+export type Dictionary = Widen<typeof en>;
