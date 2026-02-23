@@ -30,7 +30,7 @@ export default async function StudyDocumentsPage() {
         username={session.username}
         isAdmin={session.admin}
         currentPage="studyDocs"
-        dict={dict}
+        dict={{ common: dict.common, nav: dict.nav }}
         locale={locale}
       />
 

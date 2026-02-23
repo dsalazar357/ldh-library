@@ -28,7 +28,7 @@ export default async function CreateUserPage() {
         username={session.username}
         isAdmin={session.admin}
         currentPage="users"
-        dict={dict}
+        dict={{ common: dict.common, nav: dict.nav }}
         locale={locale}
       />
 

@@ -33,7 +33,7 @@ export default async function UsersPage() {
         username={session.username}
         isAdmin={session.admin}
         currentPage="users"
-        dict={dict}
+        dict={{ common: dict.common, nav: dict.nav }}
         locale={locale}
       />
 

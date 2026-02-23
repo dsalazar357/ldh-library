@@ -21,7 +21,7 @@ export default async function StudyDocUploadPage() {
         username={session.username}
         isAdmin={session.admin}
         currentPage="uploadDoc"
-        dict={dict}
+        dict={{ common: dict.common, nav: dict.nav }}
         locale={locale}
       />
 

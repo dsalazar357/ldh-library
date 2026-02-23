@@ -17,7 +17,7 @@ interface AppHeaderProps {
   username: string;
   isAdmin: boolean;
   currentPage: string;
-  dict: Dictionary;
+  dict: Pick<Dictionary, "common" | "nav">;
   locale: Locale;
 }
 

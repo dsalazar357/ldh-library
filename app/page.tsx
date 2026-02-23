@@ -78,7 +78,7 @@ export default async function Home({ searchParams }: HomeProps) {
         username={session.username}
         isAdmin={session.admin}
         currentPage="home"
-        dict={dict}
+        dict={{ common: dict.common, nav: dict.nav }}
         locale={locale}
       />
 
