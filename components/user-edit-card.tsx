@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState, useState } from "react";
-import { updateUserAction, changePasswordAction } from "@/app/actions/users";
+import { updateUserAction, changePasswordAction, toggleUserActiveAction } from "@/app/actions/users";
 import { DEGREES } from "@/lib/constants";
 
 type User = {
@@ -10,6 +10,7 @@ type User = {
   username: string | null;
   degree: number;
   admin: boolean;
+  active: boolean;
 };
 
 interface UserEditCardDict {
@@ -27,8 +28,14 @@ interface UserEditCardDict {
   newPasswordPlaceholder: string;
   confirmPasswordPlaceholder: string;
   updatePassword: string;
-  updatingPassword: string;
-}
+    updatingPassword: string;
+    active: string;
+    inactive: string;
+    enable: string;
+    disable: string;
+    enabling: string;
+    disabling: string;
+  }
 
 interface UserEditCardProps {
   user: User;
@@ -49,6 +56,10 @@ export default function UserEditCard({ user, dict, commonDict }: UserEditCardPro
     changePasswordAction,
     null
   );
+  const [toggleState, toggleAction, isToggling] = useActionState(
+    toggleUserActiveAction,
+    null
+  );
 
   return (
     <div className="bg-card rounded-xl border border-border overflow-hidden">
@@ -64,11 +75,18 @@ export default function UserEditCard({ user, dict, commonDict }: UserEditCardPro
             <p className="text-xs text-muted-foreground">{user.email}</p>
           </div>
         </div>
-        {user.admin && (
-          <span className="text-xs font-medium bg-primary text-primary-foreground px-2 py-0.5 rounded-full">
-            {dict.admin}
-          </span>
-        )}
+        <div className="flex items-center gap-2">
+          {!user.active && (
+            <span className="text-xs font-medium bg-destructive text-destructive-foreground px-2 py-0.5 rounded-full">
+              {dict.inactive}
+            </span>
+          )}
+          {user.admin && (
+            <span className="text-xs font-medium bg-primary text-primary-foreground px-2 py-0.5 rounded-full">
+              {dict.admin}
+            </span>
+          )}
+        </div>
       </div>
 
       <form action={updateAction} className="px-5 py-4 flex flex-col gap-4">
@@ -168,6 +186,40 @@ export default function UserEditCard({ user, dict, commonDict }: UserEditCardPro
             {showPasswordForm ? dict.cancelPasswordChange : dict.changePassword}
           </button>
         </div>
+      </form>
+
+      {/* Enable/Disable toggle */}
+      <form action={toggleAction} className="px-5 py-3 border-t border-border flex items-center justify-between">
+        <input type="hidden" name="userId" value={user.id} />
+        <input type="hidden" name="active" value={user.active ? "false" : "true"} />
+        <div className="flex items-center gap-2">
+          <span className={`inline-block w-2 h-2 rounded-full ${user.active ? "bg-green-500" : "bg-destructive"}`} aria-hidden="true" />
+          <span className="text-sm text-muted-foreground">
+            {user.active ? dict.active : dict.inactive}
+          </span>
+        </div>
+        {toggleState?.error && (
+          <p className="text-xs text-destructive font-medium" role="alert">
+            {toggleState.error}
+          </p>
+        )}
+        <button
+          type="submit"
+          disabled={isToggling}
+          className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed ${
+            user.active
+              ? "bg-destructive text-destructive-foreground hover:opacity-90"
+              : "bg-green-600 text-white hover:opacity-90"
+          }`}
+        >
+          {isToggling
+            ? user.active
+              ? dict.disabling
+              : dict.enabling
+            : user.active
+              ? dict.disable
+              : dict.enable}
+        </button>
       </form>
 
       {showPasswordForm && (

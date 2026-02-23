@@ -122,6 +122,45 @@ export async function createUserAction(
   }
 }
 
+export async function toggleUserActiveAction(
+  _prevState: { error?: string; success?: string } | null,
+  formData: FormData
+) {
+  const session = await getSession();
+  if (!session || !session.admin) {
+    return { error: "Unauthorized. Admin access required." };
+  }
+
+  const userId = Number(formData.get("userId"));
+  const active = formData.get("active") === "true";
+
+  try {
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    if (!user) {
+      return { error: "User not found." };
+    }
+
+    // Prevent admins from disabling themselves
+    if (user.username === session.username && !active) {
+      return { error: "You cannot disable your own account." };
+    }
+
+    await prisma.user.update({
+      where: { id: userId },
+      data: { active },
+    });
+
+    revalidatePath("/users");
+    return {
+      success: active
+        ? `User "${user.username}" has been enabled.`
+        : `User "${user.username}" has been disabled.`,
+    };
+  } catch {
+    return { error: "Failed to update user status. Please try again." };
+  }
+}
+
 export async function changePasswordAction(
   _prevState: { error?: string; success?: string } | null,
   formData: FormData

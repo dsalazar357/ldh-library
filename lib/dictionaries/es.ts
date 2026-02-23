@@ -131,6 +131,12 @@ const es: Dictionary = {
     confirmPasswordPlaceholder: "Repite la contraseña",
     updatePassword: "Actualizar Contraseña",
     updatingPassword: "Actualizando...",
+    active: "Activo",
+    inactive: "Deshabilitado",
+    enable: "Habilitar",
+    disable: "Deshabilitar",
+    enabling: "Habilitando...",
+    disabling: "Deshabilitando...",
   },
 
   createUserPage: {

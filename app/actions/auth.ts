@@ -23,6 +23,10 @@ export async function loginAction(
     return { error: "User not found." };
   }
 
+  if (!user.active) {
+    return { error: "Your account has been disabled. Contact an administrator." };
+  }
+
   const isValid = await verifyPassword(password, user.password);
 
   if (!isValid) {
