@@ -8,13 +8,14 @@ datasource db {
 }
 
 model User { 
-  id       Int     @id @default(autoincrement()) 
-  email    String  @unique
-  username String?
-  password String
-  degree   Int
-  admin    Boolean @default(false)
-  rituals  Ritual[]
+  id             Int              @id @default(autoincrement()) 
+  email          String           @unique
+  username       String?
+  password       String
+  degree         Int
+  admin          Boolean          @default(false)
+  rituals        Ritual[]
+  studyDocuments StudyDocument[]
 } 
 
 model Ritual { 
@@ -26,4 +27,15 @@ model Ritual {
   cloudinaryPublicId String?
   authorId          Int
   author            User    @relation(fields: [authorId], references: [id]) 
+}
+
+model StudyDocument {
+  id                 Int     @id @default(autoincrement())
+  title              String
+  organization       String
+  description        String
+  url                String
+  cloudinaryPublicId String?
+  authorId           Int
+  author             User    @relation(fields: [authorId], references: [id])
 } 

@@ -17,7 +17,9 @@ interface AppHeaderProps {
 const navItems: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "Rituals", href: "/rituals" },
+  { label: "Study Docs", href: "/study-documents" },
   { label: "Upload", href: "/rituals/upload", adminOnly: true },
+  { label: "Upload Doc", href: "/study-documents/upload", adminOnly: true },
   { label: "Users", href: "/users", adminOnly: true },
 ];
 
