@@ -138,6 +138,12 @@ const en = {
     confirmPasswordPlaceholder: "Re-enter password",
     updatePassword: "Update Password",
     updatingPassword: "Updating...",
+    active: "Active",
+    inactive: "Disabled",
+    enable: "Enable",
+    disable: "Disable",
+    enabling: "Enabling...",
+    disabling: "Disabling...",
   },
 
   // Create user page
@@ -290,6 +296,12 @@ export type Dictionary = {
     confirmPasswordPlaceholder: string;
     updatePassword: string;
     updatingPassword: string;
+    active: string;
+    inactive: string;
+    enable: string;
+    disable: string;
+    enabling: string;
+    disabling: string;
   };
   createUserPage: {
     title: string;

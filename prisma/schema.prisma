@@ -14,6 +14,7 @@ model User {
   password       String
   degree         Int
   admin          Boolean          @default(false)
+  active         Boolean          @default(true)
   rituals        Ritual[]
   studyDocuments StudyDocument[]
 } 
